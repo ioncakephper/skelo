@@ -1,0 +1,10 @@
+{
+    "build": {
+        "extension": ".md",
+        "sidebars": "./sidebars.js",
+        "docs": "./docs",
+        "summary": false,
+        "overview": "{{label}} overview",
+        "hide-summary": false
+    }
+}
