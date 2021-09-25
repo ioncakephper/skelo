@@ -15,5 +15,10 @@
   "bugs": {
     "url": "https://github.com/ioncakephper/skelo/issues"
   },
-  "homepage": "https://github.com/ioncakephper/skelo#readme"
+  "homepage": "https://github.com/ioncakephper/skelo#readme",
+  "dependencies": {
+    "commander": "^8.2.0",
+    "file-easy": "^1.0.3",
+    "hbsr": "^1.0.6"
+  }
 }
