@@ -17,6 +17,7 @@
   },
   "homepage": "https://github.com/ioncakephper/skelo#readme",
   "dependencies": {
+    "colors": "^1.4.0",
     "commander": "^8.2.0",
     "file-easy": "^1.0.3",
     "hbsr": "^1.0.6",
