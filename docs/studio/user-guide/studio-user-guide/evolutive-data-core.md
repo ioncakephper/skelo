@@ -1,3 +1,0 @@
----
-title: Evolutive Data Core
----

@@ -2,8 +2,6 @@ const fs = require('fs')
 const path = require('path')
 const fileEasy = require('file-easy')
 
-
-
 const skt = require('../lib/sktopic')
 
 describe('sktopic', () => {
