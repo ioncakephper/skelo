@@ -1,0 +1,84 @@
+sidebars:
+  - sidebar: docs
+    summary: true
+    label: Documentation
+    items:
+      - label: FintechOS Documentation
+        slug: intro
+      - label: Getting Started
+        path: getting started
+        summary: true
+        items:
+          - Platform architecture
+          - Evolutive Data Core
+          - Automation Blocks
+          - Customer Journeys
+          - Lighthouse Solutions
+          - Northstart Solutions
+          - Digital Frontends
+          - Analytics
+          - Security
+          - label: Topic with headings
+            headings:
+              - label: Level 2 number 1
+                items:
+                  - Level 3 number 1
+                  - label: Level 3 number with brief
+                    brief: Here is brief I was mentionsing before
+              - Level 2 number 2
+              - Level 2 number 3
+      - label: FintechOS Administration
+        title: FintechOS Administration Guide
+        summary: true
+        path: administration
+        items:
+          - label: Installation
+            summary: true
+            path: installation
+            brief: Everything you need to know about installing
+            items:
+              - System Requirements
+              - Installation Process
+          - label: DevOps
+            summary: true
+            path: devops
+            items:
+              - label: Configure the File Upload Folder
+              - slug: configure
+              - headings:
+                  - First heading goes here
+              - Importing and Exporting Deployment Packages
+              - 'File-Type Upload Control'
+              - FintechOS API a Standalone Web App
+              - Activating Localization Debug Mode
+              - Configure SMTP Server
+          - label: Integrations
+            path: integrations
+            summary: true
+            items:
+              - Connect to Azure Notification
+              - CertSign integration for electronic signature
+              - Configure the CData Sync Service
+              - Configure the Payment Processor Service Provider
+              - Configure the FtosNotificationService Service
+              - Configure the FTOSApiSMS Service
+              - Configure the OneyTrust Digital Review service
+          - label: Security
+            summary: true
+            path: security
+            items:
+              - Data Encryption and Security
+              - Authentication
+              - Register TLS Client Certificates
+              - Configure JSON Web Token (JWT) Providers
+              - Authorization
+              - Password Security
+              - Unauthorize Inactive Users
+              - Session Expiration Time
+              - File upload Malware Scanning
+              - Data Audit
+
+
+
+
+

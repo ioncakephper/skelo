@@ -1,3 +1,20 @@
 ---
 title: {{{title}}}
+{{#if id}}
+id: {{{id}}}
+{{/if}}
+{{#if sidebar_label}}
+sidebar_label: {{{sidebar_label}}}
+{{/if}}
 ---
+
+{{#if headings}}
+{{{headings}}}
+{{/if}}
+{{#if children}}
+
+## In this topic
+{{#each children as |child|}}
+- [{{{child.title}}}]({{{child.url}}}){{#if child.brief}} -- {{{child.brief}}}{{/if}}
+{{/each}}
+{{/if}}

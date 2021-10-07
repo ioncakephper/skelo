@@ -4,7 +4,7 @@
   "description": "Generate files for Docusaurus-based documentation from outline files (.yaml or .md)",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "jest"
   },
   "repository": {
     "type": "git",
@@ -20,8 +20,14 @@
     "colors": "^1.4.0",
     "commander": "^8.2.0",
     "file-easy": "^1.0.3",
+    "file-set": "^5.1.2",
+    "glob": "^7.2.0",
     "hbsr": "^1.0.6",
     "lodash": "^4.17.21",
+    "markdown": "^0.5.0",
     "yamljs": "^0.3.0"
+  },
+  "devDependencies": {
+    "jest": "^27.2.3"
   }
 }
