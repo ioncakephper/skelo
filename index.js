@@ -56,6 +56,11 @@ program
 
 program.parse()
 
+/**
+ * 
+ * @param {*} singleOutlineFilename 
+ * @returns 
+ */
 function getSidebarDefinitions(singleOutlineFilename) {
 
     let ext = path.extname(singleOutlineFilename);
