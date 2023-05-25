@@ -18,7 +18,7 @@ program
 program
     .command('build', {isDefault: true})
     .description('build topic files and sidebar layout file from outline files')
-    .argument('[outlineFile...]', 'file with sidebar outline', `${name}-outline`)
+    .argument('[outlineFile...]', 'file with sidebar outline', `${name}.outline`)
 
     .option('-d, --docs <path>', 'path to Docusaurus documents root folder', 'docs')
     .option('-s, --sidebar <filename>', '', 'sidebars.js')
