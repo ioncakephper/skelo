@@ -1,0 +1,21 @@
+---
+sidebar_label: {{{label}}}
+{{#if hasSlug}}
+slug: {{{slug}}}
+{{/if}}
+{{#if hasId}}
+slug: {{{id}}}
+{{/if}}
+---
+
+{{#if title}}
+# {{{title}}}
+{{else}}
+# {{{label}}}
+{{/if}}
+{{#if brief}}
+
+{{{brief}}}
+{{/if}}
+
+{{{itemHeadings}}}
