@@ -1,0 +1,18 @@
+sidebars:
+  - release_notes:
+      - "Release notes":
+          - "Product":
+              - "Studio"
+              - "Banking product"
+          - "Recent":
+              - "March 20, 2023":
+                  description: "Summary of individual product release notes"
+
+
+release-notes
+  banking-product
+  studio
+    2022-04-15
+    2022-12-15
+
+

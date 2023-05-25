@@ -1,0 +1,43 @@
+
+sidebars:
+  - docs:
+      items:
+          - Overview:
+              title: Getting Started
+              headings:
+                - VS Code in Action
+                - Top Extensions
+                - First Steps
+                - Keyboard Shortcuts
+                - Downloads
+                - Privacy
+          - Setup:
+              path: setup
+              items:
+                - Overview:
+                    title: Setting up Visual Studio Code
+                - Linux
+                    title: Visual Studio Code on Linux
+                - macOS:
+                    title: Visual Studio Code on macOS
+                - Windows:
+                    title: Visual Studio Code on Windows
+                - Rasberry Pi
+                - Network
+                - Additional Components
+                - Enterprise
+                - Uninstall
+          - Get Started:
+              path: getstarted
+              items:
+                - Intro Videos
+                - Tips and Tricks
+                - User Interface
+                - Themes
+                - Settings
+                - Key Bindings
+                - Display Language
+                - Telemetry
+
+          - User Guide:
+

@@ -1,0 +1,40 @@
+type: activeCard
+title: Add release note 
+required:
+  - "select-product"
+  - "release-month"
+  - "release-year"
+items:
+    - title: Select product
+      id: "select-product"
+      type: dropdown
+      items:
+        - label: "Select"
+          isDefault: true
+        - label: Studio
+          value: studio
+        - label: Trends analyzer
+          value: "trends-analyzer"
+
+    - title: Release note date
+      type: group
+      items:
+          - type: "dropdown"
+            id: "release-month"
+            title: Month
+            items:
+              - label: "Select"
+                isDefault: true
+              - label: Jan
+                value: "01"
+              - label: Feb
+                value: "02"
+          - type: number
+            title: Year
+            id: "release-year"
+            pattern: "/^20[2|3]\d$/"
+
+      - title: Version
+        id: version
+        type: "string"
+        pattern: "/[0|[1-9]+]\.[0|[1-9]+]\.[0|[1-9]+]^$/"

@@ -1,0 +1,19 @@
+{
+  "name": "skelo",
+  "version": "1.0.0",
+  "description": "Build sidebars and topic files for Docusaurus-powered sites.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "commander": "^10.0.1",
+    "file-easy": "^1.0.3",
+    "hbsr": "^1.0.9",
+    "lodash": "^4.17.21",
+    "path": "^0.12.7",
+    "yamljs": "^0.3.0"
+  }
+}

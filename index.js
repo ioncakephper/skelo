@@ -1,0 +1,212 @@
+const program = require('commander')
+const {isString, isObject, isArray} = require('lodash');
+const {render} = require('hbsr')
+const path = require('path');
+const {saveDocument, setDefaultExtension, slug} = require('file-easy');
+const fs = require('fs');
+const yamljs = require('yamljs');
+
+'use strict';
+
+let {name, version, description} = require('./package.json');
+
+program
+    .name(name)
+    .version(version)
+    .description(description)
+
+program
+    .command('build', {isDefault: true})
+    .description('build topic files and sidebar layout file from outline files')
+    .argument('[outlineFile...]', 'file with sidebar outline', `${name}-outline`)
+
+    .option('-d, --docs <path>', 'path to Docusaurus documents root folder', 'docs')
+    .option('-s, --sidebar <filename>', '', 'sidebars.js')
+    .option('--sidebarExtension <extension>', 'default extension for sidebar file', '.js')
+    .option('--outlineExtension <extension>', 'default extension for outline file', '.yml')
+    .option('--topicExtension <extension>', 'default extension for topic file', '.md')
+    .action((outlineFile, options) => {
+        if (isString(outlineFile)) {
+            outlineFile = [outlineFile]
+        }
+        outlineFile = outlineFile.map(fn => setDefaultExtension(fn, options.outlineExtension))
+
+        // console.log(JSON.stringify(outlineFile, null, 4))
+
+        
+        let documentationSidebars = {}
+        outlineFile.forEach(singleOutlineFile => {
+            getSidebarDefinitions(singleOutlineFile).forEach(sidebarDefinition => {
+                // console.log(JSON.stringify(sidebarDefinition))
+                let {label, items} = sidebarDefinition;
+                documentationSidebars[label] = buildSidebarItems(items, {...options, ...{parentPath: getSluggedPath(sidebarDefinition.path || '.')}})
+            })
+        })
+
+
+        let content = JSON.stringify(documentationSidebars, null, 4)
+
+        let template = `module.exports = {{{content}}}`
+        let sidebarsContent = render(template, {content})
+
+        let sidebarFilename = path.join(options.sidebar);
+        sidebarFilename = setDefaultExtension(sidebarFilename, options.sidebarExtension)
+        saveDocument(sidebarFilename, sidebarsContent);
+    })
+
+program.parse()
+
+function getSidebarDefinitions(singleOutlineFilename) {
+
+    let ext = path.extname(singleOutlineFilename);
+    let isYaml = [".yml", ".yaml"].includes(ext.toLowerCase())
+
+    if (isYaml) {
+
+        let sidebarDefinitions = yamljs.load(singleOutlineFilename).sidebars;
+        return sidebarDefinitions.map(item => normalizeItem(item))
+    }
+}
+
+function buildSidebarItems(items, options) {
+    items = items.map(item => normalizeItem(item))
+
+    return items.map(item => {
+        item = normalizeItem(item);
+
+        let isALink = Object.keys(item).includes('href');
+        if (isALink) {
+            return buildALink(item, options)
+        }
+        return isTopic(item)
+            ? buildTopic(item, options)
+            : buildCategory(item, options)
+    })
+}
+
+
+
+function buildALink(item, options) {
+    return {
+        href: item.href,
+        type: "link",
+        label: item.label
+    }
+}
+
+function buildTopic(item, options) {
+
+    let parentPath = getSluggedPath(options.parentPath);
+    let itemPath = getSluggedPath(item.path);
+    let itemBasename = path.join(parentPath, itemPath, getItemSlug(item))
+
+    createTopicFile(item, itemBasename, options)
+
+    return itemBasename.replace(/\\/g, '/')
+}
+
+function createTopicFile(item, itemBasename, options) {
+
+
+    let template = `---
+sidebar_label: {{{label}}}
+---
+
+{{#if title}}
+# {{{title}}}
+{{else}}
+# {{{label}}}
+{{/if}}
+
+{{{itemHeadings}}}
+
+`
+    let topicContent = render(template, {
+        ...{itemHeadings: buildHeadings(item.headings, options)},
+        ...item,
+    })
+
+    let topicFilename = path.join(options.docs, itemBasename)
+    topicFilename = setDefaultExtension(topicFilename, options.topicExtension)
+    saveDocument(topicFilename, topicContent)
+}
+
+function buildHeadings(items = [], options, level = 2) {
+
+    return items
+              .map(item => normalizeItem(item))
+              .map(item => {
+
+                let template = `{{{prefix}}} {{{label}}}
+
+{{{itemHeadings}}}
+`
+                return render(template, {
+                    prefix: "#".repeat(level),
+                    label: item.label,
+                    itemHeadings: buildHeadings(item.items, options, level + 1)
+
+                })
+              })
+              .join('')
+}
+
+function buildCategory(item, options) {
+
+    let category = {
+        label: item.label,
+        type: 'category',
+        items: buildSidebarItems(item.items, {...options, ...{parentPath: [options.parentPath || '', item.path || ''].join('/')}})
+    }
+    if (item.generated_index) {
+        category['link'] = {
+            type: 'generated-index',
+            // description: item.description || item.brief || ''
+        }
+        if (item.slug) {
+            category['link'].slug = item.slug
+        }
+    }
+    return category;
+}
+
+function getItemSlug(item) {
+    return slug(item.slug || item.label);
+}
+
+function getSluggedPath(pathItem = '') {
+    pathItem = (isString(pathItem)) ? pathItem.split('/') : pathItem;
+
+    return pathItem.map(item => {
+        if (!isString(item)) {
+            item = item;
+        }
+        return slug(item)
+    }).join('/').replace(/^\//, '');
+        
+}
+
+function normalizeItem(item) {
+    item = (isString(item)) ? {label: item} : item;
+    if (isObject(item) && !Object.keys(item).includes('label')) {
+        let label = Object.keys(item)[0]
+        if (isArray(item[label])) {
+            item = {
+                "label": label,
+                "items": item[label].map(e => normalizeItem(e))
+            }
+        } else {
+            item = {
+                ...{label},
+                ...item[label],
+            }
+        }
+    }
+    item = isObject(item) ? {...{items: [], ...item, }} : item;
+
+    return item;
+}
+
+function isTopic(item) {
+    return item && item.items && isArray(item.items) && item.items.length === 0;
+}
