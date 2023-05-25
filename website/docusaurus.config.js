@@ -44,7 +44,7 @@ const config = {
           // editUrl:
           //   'https://github.com/facebook/docusaurus/tree/main/packages/create-docusaurus/templates/shared/',
           editUrl:
-            'https://github.com/ioncakephper/skelosaurus/tree/master/website/',
+            'https://github.com/ioncakephper/skelo/tree/master/website/',
         },
         blog: {
           showReadingTime: true,
