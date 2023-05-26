@@ -60,6 +60,19 @@ const config = {
     ],
   ],
 
+  plugins: [
+    [
+      '@docusaurus/plugin-content-docs',
+      {
+        id: 'updates',
+        path: 'updates',
+        routeBasePath: 'updates',
+        sidebarPath: require.resolve('./sidebarsUpdates.js'),
+        // ... other options
+      },
+    ],
+  ],
+
   themeConfig:
     /** @type {import('@docusaurus/preset-classic').ThemeConfig} */
     ({
@@ -77,6 +90,11 @@ const config = {
             sidebarId: 'docs',
             position: 'left',
             label: 'Docs',
+          },
+          {
+            type: 'docSidebar',
+            sidebarId: 'updates',
+            label: 'Updates,'
           },
           {
             type: 'docSidebar',
