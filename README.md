@@ -270,33 +270,38 @@ The sidebar content is:
     }
 ```
 
-**`generated_index: <properties>`**
+**`doc: true`**
 
-Generate category index and specify page description, and slug.
+Specify the page to show when clicking category title. 
+
+::: note
+Make sure you are generating the category page for the category that uses `doc` attribute. Docusaurus will fail to build the site when it can't find a referenced page, and will show an error message.
+:::
+
+Use the `slug` attribute to specify the filename to show when you click the category title.
 
 ```yaml
-    "Getting started":
-        generated_index:
-            description: This text appears under the page title
-            slug: overview
-            title: Page title appearing on category index
+    "Getting started:
+        doc: true
+        slug: overview
         items:
             - First item
+            - Second item
 ```
 
-Resulting sidebar is:
+Results in:
 
 ```js
     {
         type: "category",
         label: "Getting started",
         link: {
-            type: "generated-index",
-            title: "Page title appearing on category index
-            description: "This text appears under the page title"
+            type: "doc",
+            id: "overview"
         },
         items: [
-            "first-item"
+            "first-item",
+            "second-item"
         ]
     }
 ```
