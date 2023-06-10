@@ -107,9 +107,41 @@ The `docs/getting-started.md` file:
 sidebar_label: Getting started
 ---
 
+
+
 # Getting started
 
 ```
+
+### Sidebar with topics and categories
+
+```yaml
+sidebars:
+   - docs:
+        - Getting started
+        - Examples:
+             - First example
+             - Second example
+```
+
+```js
+module.exports = {
+
+    "docs": [
+    
+         "getting-started",
+         {
+            type: "category",
+            label: "Examples",
+            items: [
+                "first-example",
+                "second-example"
+            ]
+    
+    ]
+}
+```
+
 
 ### Category and items
 
