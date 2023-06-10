@@ -137,7 +137,8 @@ module.exports = {
                 "first-example",
                 "second-example"
             ]
-    
+
+          }
     ]
 }
 ```
