@@ -12,6 +12,8 @@ sidebars:
                   - Jest
                   - React
                   - Visual Studio Code:
+                      generated_index: true
+                      slug: visual-studio-code/overview
                       items:
                         - View Documentation:
                             href: /docs/demos/visual-studio-code/docs/overview

@@ -36,7 +36,11 @@ module.exports = {
                             "type": "link",
                             "label": "View Documentation"
                         }
-                    ]
+                    ],
+                    "link": {
+                        "type": "generated-index",
+                        "slug": "visual-studio-code/overview"
+                    }
                 }
             ],
             "link": {
@@ -71,7 +75,8 @@ module.exports = {
                     "label": "Updates",
                     "type": "category",
                     "items": [
-                        "demos/visual-studio-code/updates/v1-73"
+                        "demos/visual-studio-code/updates/v1-78",
+                        "demos/visual-studio-code/updates/v1-77"
                     ]
                 }
             ]

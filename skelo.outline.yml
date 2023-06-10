@@ -26,4 +26,12 @@ sidebars:
               - Installation
               - Features
               - Troubleshooting
+
+        - Another category:
+              generated_index:
+                  slug: another-category-overview
+                  title: Summary of Another category
+                  description: This is the description of summary page
+              items:
+                  - First item
   - label: "Unspecified"

@@ -61,16 +61,26 @@ const config = {
   ],
 
   plugins: [
-    [
-      '@docusaurus/plugin-content-docs',
-      {
-        id: 'updates',
-        path: 'updates',
-        routeBasePath: 'updates',
-        sidebarPath: require.resolve('./sidebarsUpdates.js'),
-        // ... other options
-      },
-    ],
+    // [
+    //   '@docusaurus/plugin-content-docs',
+    //   {
+    //     id: 'docs',
+    //     path: 'docs',
+    //     routeBasePath: 'docs',
+    //     sidebarPath: require.resolve('./sidebar.js'),
+    //     // ... other options
+    //   },
+    // ],
+    // [
+    //   '@docusaurus/plugin-content-docs',
+    //   {
+    //     id: 'updates',
+    //     path: 'updates',
+    //     routeBasePath: 'updates',
+    //     sidebarPath: require.resolve('./sidebarsUpdates.js'),
+    //     // ... other options
+    //   },
+    // ],
   ],
 
   themeConfig:
@@ -91,11 +101,11 @@ const config = {
             position: 'left',
             label: 'Docs',
           },
-          {
-            type: 'docSidebar',
-            sidebarId: 'updates',
-            label: 'Updates,'
-          },
+          // {
+          //   type: 'docSidebar',
+          //   sidebarId: 'updates',
+          //   label: 'Updates,'
+          // },
           {
             type: 'docSidebar',
             sidebarId: 'demos',

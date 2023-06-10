@@ -218,3 +218,85 @@ sidebar_label: Overview
 ### Longhand definition
 
 ```
+
+## Category properties
+
+**`path`**
+
+Sets the parent path of items in category. You can indicate several path level by separating each level with forward slash (/). Spaces are replaced by dash (-)
+
+```yaml
+    Getting started:
+        path: Getting   Started / application
+        items:
+            - First item
+```
+
+Resulting sidebar code is:
+
+```js
+    {
+        type: "category",
+        label: "Getting started",
+        items: [
+            "getting-started/application/first-item"
+        ]
+    }
+```
+
+**`generated_index: true`**
+
+Generate category index.
+
+```yaml
+    Getting started:
+        generated_index: true
+        items:
+            - First item
+```
+
+The sidebar content is:
+
+```js
+    {
+        type: "category",
+        label: "Getting started",
+        items: [
+            "first-item"
+        ],
+        link: {
+            type: "generated-index",
+        }
+    }
+```
+
+**`generated_index: <properties>`**
+
+Generate category index and specify page description, and slug.
+
+```yaml
+    "Getting started":
+        generated_index:
+            description: This text appears under the page title
+            slug: overview
+            title: Page title appearing on category index
+        items:
+            - First item
+```
+
+Resulting sidebar is:
+
+```js
+    {
+        type: "category",
+        label: "Getting started",
+        link: {
+            type: "generated-index",
+            title: "Page title appearing on category index
+            description: "This text appears under the page title"
+        },
+        items: [
+            "first-item"
+        ]
+    }
+```

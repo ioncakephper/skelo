@@ -1,5 +1,5 @@
 module.exports = {
     "updates": [
-        "v1_78"
+        "updates/v1_78"
     ]
 }
