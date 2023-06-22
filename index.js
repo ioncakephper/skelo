@@ -104,7 +104,7 @@ program
     "configuration file whose clear key is used for arguments and options",
     "skelo.config.json"
   )
-  .action((dirs, options, commander) => {
+  .action((dirs) => {
     dirs = (typeof dirs == 'string') ? [dirs] : dirs;
     console.log(JSON.stringify(dirs, null, 4))
   });
