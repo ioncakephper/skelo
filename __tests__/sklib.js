@@ -7,7 +7,7 @@ const yamljs = require('yamljs')
 
 const skl = require('../lib/sklib')
 // const { TestWatcher } = require('@jest/core')
-const { hasUncaughtExceptionCaptureCallback } = require('process')
+// const { hasUncaughtExceptionCaptureCallback } = require('process')
 
 describe('sklib', () => {
 
