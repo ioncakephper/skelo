@@ -113,7 +113,7 @@ program
   .command("init")
   .description("initializes current folder")
   .argument('[config]', 'path to configuration filename to create', 'skelo.config.json')
-  .action((options) => {
+  .action(() => {
     let configuration = "./skelo.json";
     fileEasy.saveDocument(configuration, JSON.stringify(config, null, 4));
   });
