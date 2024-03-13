@@ -1,0 +1,12 @@
+sidebars:
+  - docsSidebar:
+      - Introduction:
+          - Getting started
+          - label: Fundamental concepts
+            headings:
+              - First heading
+              - Second heading
+  - label: secondSidebar
+    path: secondSidebar
+    items:
+      - label: Overview

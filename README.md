@@ -338,3 +338,9 @@ Results in:
         ]
     }
 ```
+
+## Random strings
+
+You may want to check how your documentation looks with a quick description, various heading levels, random number of paragraphs and paragraph number of words.
+
+To this end, include attributes in your outline file that specify random brief text, a random number of headings, etc

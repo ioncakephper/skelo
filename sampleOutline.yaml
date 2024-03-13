@@ -1,0 +1,4 @@
+sidebars:
+  - standardSidebar
+  - label: updatesSidebar
+    path: updates
