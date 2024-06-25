@@ -1,85 +1,108 @@
-const { Command } = require('commander')
-const { globSync } = require('glob')
 const yamljs = require('yamljs')
-const { isNull, isArray } = require('lodash');
-const { saveDocument } = require('file-easy')
-const hbsr = require('hbsr');
-
-const { createTopicDocument,
-    logMessage,
-    buildItems,
-    normalizeItem,
-    getItemOptions,
-} = require('./lib/skelo-utils')
 
 
-let program = new Command()
+// Organize exports of this module if needed
 
-let { version, name, description } = require('./package.json')
 
-program
-    .name(name)
-    .version(version)
-    .description(description)
+/**
+ * Checks if the given YAML file contains a non-empty array of sidebars.
+ *
+ * @param {string} filename - The path to the YAML file.
+ * @param {Object} options - Additional options for the function.
+ * @return {boolean} Returns true if the YAML file contains a non-empty array of sidebars, false otherwise.
+ * @throws {Error} Throws an error if the YAML file does not contain a non-empty array of sidebars.
+ */
+function isValidOutlineFile(filename, options) {
 
-program
-    .command('build', { isDefault: true })
-    .description('build topic files and sidebars structure file from outline definition files')
-    .argument('[filenamePattern...]', 'filename pattern', [
-        '__outlines__/**/*+(.yaml|.yml)',
-        '**/*[Oo]utline+(.yaml|.yml)'
-    ])
-    .option('-d, --docs <path>', 'path to docs', 'docs')
-    .option('-s, --sidebars <fullname>', 'fullname of sidebars', 'sidebars')
-    .option('--sidebarsExtension <extension>', 'extension of sidebars', '.js')
-    .option('--topicExtension <extension>', 'extension of topic', '.md')
-    .option('-v, --verbose', 'verbose')
-
-    .action((filenamePattern, options) => {
-        let filenames = globSync(filenamePattern);
-
-        filenames = filenames.filter(filename => !isNull(yamljs.load(filename) && isArray(yamljs.load(filename)['sidebars'])))
-
-        let allDefinedSidebars = {}
-        filenames.forEach(filename => {
-            logMessage(options.verbose, `Processing ${filename}...`);
-            let sidebars = yamljs.load(filename)['sidebars'].filter(sidebar => !isNull(sidebar));
-
-            sidebars.forEach(sidebar => {
-
-                sidebar = normalizeItem(sidebar);
-
-                if (Object.keys(allDefinedSidebars).includes(sidebar.label)) {
-                    console.log('[WARNING] Duplicate sidebar label', sidebar.label, 'in', filename)
-                } else {
-                    allDefinedSidebars[sidebar.label] = sidebar;
-                    logMessage(options.verbose, `[INFO] successfully processed and added sidebar: ${sidebar.label} defined in ${filename}`) ;
-                }
-            }) 
-        })
- 
-
-        let generatedSidebars = {}
-        logMessage(options.verbose, `Start building sidebars...`)
-        for (let sidebarDefinition in allDefinedSidebars) {
-            let sidebar = allDefinedSidebars[sidebarDefinition]
-
-            generatedSidebars[sidebarDefinition] = buildItems(sidebar.items, {
-                ...options,
-                ...getItemOptions(sidebar, options)
-            })
+    try {
+        let content = yamljs.load(filename);
+        // console.log(JSON.stringify(content, null, 2));
+        if (!content.sidebars || !Array.isArray(content.sidebars) || content.sidebars.length === 0) {
+            throw new Error(`"${filename}" does not contain a non-empty array of sidebars`);
         }
-        logMessage(options.verbose, `End building sidebars...`)
+        return true;
+    } catch (err) {
+        console.error(err.message);
+        return false;
+    }
+    
+}
 
-        let sidebarsContent = hbsr.render_template('sidebars', { sidebars: JSON.stringify(generatedSidebars, null, 2) })
+/**
+ * Normalizes an item by converting a string to an object with a label property,
+ * checking if the item has a non-empty string label, and ensuring that the
+ * items and headings properties are arrays.
+ *
+ * @param {string|object} item - The item to be normalized. If it is a string,
+ * it is converted to an object with a label property.
+ * @throws {Error} Throws an error if the item is an empty string, if the item
+ * does not have a non-empty string label, or if the items or headings property
+ * is not an array.
+ * @return {object} The normalized item.
+ */
+function normalizeItem(item) {
+    if (typeof item === 'string' && item.trim() === '') {
+        throw new Error('Empty string is not a valid item');
+    }
+    if (typeof item === 'string') {
+        return normalizeItem({label: item});
+    }
+
+    if (typeof item === 'object') {
+        if (typeof item.label !== 'string' || item.label.trim() === '') {
+
+            let label = Object.keys(item)[0];
+            return normalizeItem({label, ...{items: item[label]}});
+        }
+        if (!item.items) {
+            item.items = [];
+        }
+        if (item.items && !Array.isArray(item.items)) {
+            throw new Error('Items must be an array');
+        }
+        if (item.items) {
+            item.items = item.items.map(normalizeItem);
+        }
+        if (item.items.length === 0) {
+
+            if (item.headings && !Array.isArray(item.headings)) {
+                throw new Error('headings must be an array');
+            }
+            if (item.headings) {
+                item.headings = item.headings.map(normalizeItem);
+            }           
+        }
+    }
+
+    return item;
+}
+
+/**
+ * Convert a string to a slug.
+ *
+ * @param {string} input - The string to convert to a slug.
+ * @throws {Error} Throws an error if the input is not a string.
+ * @return {string} The slug.
+ */
+function slugify(input) {
+    // Check if the input is a string
+    if (typeof input !== 'string') {
+        throw new Error('Input must be a string');
+    }
+
+    // Trim leading and trailing whitespace and convert to lowercase
+    let slug = input.trim().toLowerCase();
+
+    // Remove non-alphanumeric characters and replace with hyphens
+    // Regular expression matches any character that is not a letter, number, space, or hyphen
+    slug = slug.replace(/[^a-zA-Z0-9\s\-]/g, '-');
+
+    // Remove multiple hyphens and reduce to a single hyphen
+    // Regular expression matches one or more consecutive hyphens
+    slug = slug.replace(/-+/g, '-');
+
+    return slug;
+}
 
 
-        let sidebarsFilename = options.sidebars //;
-
-        saveDocument(sidebarsFilename, sidebarsContent)
-        logMessage(options.verbose, `[INFO]created sidebars file: ${sidebarsFilename}`)
-
-    }) 
-
-program.parse()
-
+module.exports = { isValidOutlineFile, normalizeItem, slugify };

@@ -30,13 +30,14 @@
 //    */
 // };
 const sidebars = {
-  "tutorialSidebar": [],
-  "docsSidebar": [
+  "docs": [
     {
-      "label": "Introduction",
+      "label": "Getting started",
       "type": "category",
       "items": [
-        "getting-started"
+        "overview",
+        "installation",
+        "quick demo"
       ]
     }
   ]

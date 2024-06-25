@@ -1,0 +1,7 @@
+sidebars:
+   - label: docs
+     items:
+       - Getting started:
+            - Overview
+            - Installation
+            - Quick demo
