@@ -35,9 +35,9 @@ const sidebars = {
       "label": "Getting started",
       "type": "category",
       "items": [
+        "sample-for/this-plugin/demo",
         "overview",
-        "installation",
-        "quick demo"
+        "installation"
       ]
     }
   ]

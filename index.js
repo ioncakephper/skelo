@@ -95,7 +95,7 @@ function slugify(input) {
 
     // Remove non-alphanumeric characters and replace with hyphens
     // Regular expression matches any character that is not a letter, number, space, or hyphen
-    slug = slug.replace(/[^a-zA-Z0-9\s\-]/g, '-');
+    slug = slug.replace(/[^a-zA-Z0-9\-]/g, '-');
 
     // Remove multiple hyphens and reduce to a single hyphen
     // Regular expression matches one or more consecutive hyphens
